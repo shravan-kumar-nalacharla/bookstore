@@ -1,0 +1,322 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Book Haven Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .reg-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .reg-container h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #007bff;
+            margin: 0 0 20px;
+        }
+
+        .reg-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .reg-container label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+        }
+
+        .reg-container input[type="text"],
+        .reg-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .reg-container input[type="text"]:focus,
+        .reg-container input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .reg-container .gender-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .reg-container input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .reg-container input[type="submit"],
+        .reg-container input[type="reset"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .reg-container input[type="submit"]:hover,
+        .reg-container input[type="reset"]:hover {
+            background-color: #0056b3;
+        }
+
+        .reg-container input[type="submit"]:focus,
+        .reg-container input[type="reset"]:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        .reg-container .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        @media (max-width: 600px) {
+            .reg-container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .reg-container h3 {
+                font-size: 18px;
+            }
+
+            .reg-container label {
+                font-size: 12px;
+            }
+
+            .reg-container input[type="text"],
+            .reg-container input[type="password"],
+            .reg-container input[type="submit"],
+            .reg-container input[type="reset"] {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .reg-container .gender-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        function UnameValidation() {
+            var fname = document.forms["regform"].fname.value;
+            var letterPattern = /^[a-zA-Z]+$/;
+            var splchar = "!@#$%^&*()+=-[]\\';,./{}|\":<>?~";
+            if (fname.length < 6) {
+                alert("First name must have at least 6 characters");
+                return false;
+            }
+            if (!letterPattern.test(fname)) {
+                alert("First name must contain only letters");
+                return false;
+            }
+            for (var i = 0; i < fname.length; i++) {
+                if (splchar.indexOf(fname.charAt(i)) !== -1) {
+                    alert("First name should not have special characters");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function LnameValidation() {
+            var lname = document.forms["regform"].lname.value;
+            var letterPattern = /^[a-zA-Z]+$/;
+            if (lname && !letterPattern.test(lname)) {
+                alert("Last name must contain only letters");
+                return false;
+            }
+            return true;
+        }
+
+        function pwdvalidation() {
+            var pw = document.forms["regform"].pwd.value;
+            var cpw = document.forms["regform"].cpwd.value;
+            if (pw.length < 6) {
+                alert("Password must contain at least 6 characters");
+                return false;
+            }
+            if (pw !== cpw) {
+                alert("Passwords do not match");
+                return false;
+            }
+            return true;
+        }
+
+        function emailvalidation() {
+            var emailid = document.forms["regform"].email.value;
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(emailid)) {
+                alert("Please enter a valid email address");
+                return false;
+            }
+            return true;
+        }
+
+        function phnovalidation() {
+            var ph = document.forms["regform"].phno.value;
+            var phonePattern = /^[6-9]\d{9}$/;
+            if (!phonePattern.test(ph)) {
+                alert("Please enter a valid 10-digit Indian phone number");
+                return false;
+            }
+            return true;
+        }
+
+        function gendervalidation() {
+            var gender = document.forms["regform"].gender.value;
+            if (!gender) {
+                alert("Please select a gender");
+                return false;
+            }
+            return true;
+        }
+
+        function validateForm() {
+            if (!UnameValidation()) return false;
+            if (!LnameValidation()) return false;
+            if (!pwdvalidation()) return false;
+            if (!emailvalidation()) return false;
+            if (!phnovalidation()) return false;
+            if (!gendervalidation()) return false;
+            return true;
+        }
+
+        /* Excluded XLSX script as it’s unrelated and requires XLSX library
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+            return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                        headerRowIndex = 0;
+                    }
+                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
+                }
+            }
+            return gk_fileData[filename] || "";
+        }
+        */
+    </script>
+</head>
+<body>
+    <div class="reg-container" aria-label="Registration Form">
+        <h3>Register for Book Haven</h3>
+        <form name="regform" action="register.php" method="post" onsubmit="return validateForm()">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="fname" maxlength="20" required>
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" maxlength="20">
+            <label for="pwd">Password</label>
+            <input type="password" id="pwd" name="pwd" maxlength="20" required>
+            <label for="cpwd">Confirm Password</label>
+            <input type="password" id="cpwd" name="cpwd" maxlength="20" required>
+            <label>Gender</label>
+            <div class="gender-group">
+                <label><input type="radio" name="gender" value="male"> Male</label>
+                <label><input type="radio" name="gender" value="female"> Female</label>
+            </div>
+            <label for="email">Email-ID</label>
+            <input type="text" id="email" name="email" maxlength="40" required>
+            <label for="phno">Phone Number</label>
+            <input type="text" id="phno" name="phno" maxlength="10" required>
+            <div class="button-group">
+                <input type="submit" value="Submit">
+                <input type="reset" value="Reset" onclick="this.form.reset();">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
