@@ -1,0 +1,187 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Book Haven Main Content</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .main-content {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .main-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #007bff;
+            margin: 0 0 15px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .book-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .book-card p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .book-card a {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-card a:hover {
+            background-color: #0056b3;
+        }
+
+        .book-card a:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .main-content h3 {
+                font-size: 18px;
+            }
+
+            .book-card h4 {
+                font-size: 14px;
+            }
+
+            .book-card p {
+                font-size: 12px;
+            }
+
+            .book-card a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .book-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content" aria-label="Main Bookstore Content">
+        <h3>Welcome to Book Haven</h3>
+        <div class="book-grid">
+            <div class="book-card">
+                <h4>The Guide</h4>
+                <p>Author: R.K. Narayan</p>
+                <p>Price: ₹200</p>
+                <a href="cse.html" target="showframe">View Details</a>
+            </div>
+            <div class="book-card">
+                <h4>The White Tiger</h4>
+                <p>Author: Aravind Adiga</p>
+                <p>Price: ₹250</p>
+                <a href="ece.html" target="showframe">View Details</a>
+            </div>
+            <div class="book-card">
+                <h4>The Immortals of Meluha</h4>
+                <p>Author: Amish Tripathi</p>
+                <p>Price: ₹300</p>
+                <a href="eee.html" target="showframe">View Details</a>
+            </div>
+            <div class="book-card">
+                <h4>Five Point Someone</h4>
+                <p>Author: Chetan Bhagat</p>
+                <p>Price: ₹150</p>
+                <a href="mech.html" target="showframe">View Details</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

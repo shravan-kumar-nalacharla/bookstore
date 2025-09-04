@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSE Book Catalogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .main-content {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .book-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        .book-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .book-card p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #666;
+        }
+        .book-card a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .book-card a:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .book-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <h3>Computer Science & Engineering Catalogue</h3>
+        <div class="book-grid">
+            <div class="book-card">
+                <h4>Introduction to Algorithms</h4>
+                <p>Author: Thomas H. Cormen</p>
+                <p>Price: ₹950</p>
+                <a href="#">View Details</a>
+            </div>
+            <div class="book-card">
+                <h4>Operating System Concepts</h4>
+                <p>Author: Abraham Silberschatz</p>
+                <p>Price: ₹880</p>
+                <a href="#">View Details</a>
+            </div>
+            <div class="book-card">
+                <h4>Database System Concepts</h4>
+                <p>Author: Henry F. Korth</p>
+                <p>Price: ₹790</p>
+                <a href="#">View Details</a>
+            </div>
+            <div class="book-card">
+                <h4>Computer Networks</h4>
+                <p>Author: Andrew S. Tanenbaum</p>
+                <p>Price: ₹850</p>
+                <a href="#">View Details</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

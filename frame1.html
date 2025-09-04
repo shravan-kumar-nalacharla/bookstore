@@ -1,0 +1,172 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Book Haven Header</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .header img {
+            max-width: 150px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .header img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-table {
+            width: auto;
+            margin: 0 auto;
+        }
+
+        .nav-table tr {
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-table th {
+            padding: 0 20px;
+        }
+
+        .nav-table a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-table a:hover {
+            color: #e0e0e0;
+        }
+
+        .nav-table a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e0e0e0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-table a:hover::after {
+            width: 100%;
+        }
+
+        .nav-table a:focus {
+            outline: 2px solid #e0e0e0;
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 10px;
+            }
+
+            .header img {
+                max-width: 120px;
+            }
+
+            .nav-table th {
+                padding: 0 10px;
+            }
+
+            .nav-table a {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .nav-table tr {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-table th {
+                padding: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" target="_top" style="width: 100px; height: 100px;"><img src="https://i.postimg.cc/ry3hSQFx/bookhavenlogo.png" alt="Book Haven Logo"></a>
+        <table class="nav-table">
+            <tr>
+                <th><a href="login.html" target="showframe">Login</a></th>
+                <th><a href="valid.html" target="showframe">Registration</a></th>
+                <th><a href="catalogue.html" target="showframe">Catalogue</a></th>
+                <th><a href="cart.html" target="showframe">Cart</a></th>
+                <th><a href="result.html" target="showframe">Result</a></th>
+                <th><a href="profile.html" target="showframe">Profile</a></th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

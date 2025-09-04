@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shravan Kumar Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f9fc;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid #2c3e50;
+      object-fit: cover;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(44, 62, 80, 0.6);
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .title p {
+      margin: 5px 0;
+      font-weight: 300;
+      color: #777;
+    }
+
+    /* Info */
+    .pinfo {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #444;
+      animation: fadeInUp 1.3s ease;
+    }
+
+    .pinfo span {
+      margin: 0 8px;
+    }
+
+    /* Sections */
+    section {
+      background: #fff;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      animation: fadeInUp 1.3s ease;
+    }
+
+    section h2 {
+      margin-top: 0;
+      font-size: 22px;
+      font-weight: 600;
+      color: #2c3e50;
+      border-left: 5px solid #3498db;
+      padding-left: 10px;
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      margin: 10px 0 5px;
+      color: #34495e;
+      font-weight: 500;
+    }
+
+    ul {
+      margin: 8px 0 15px 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Hover effect for cards */
+    section:hover {
+      transform: translateY(-5px);
+      transition: 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="title">
+        <h1>Shravan Kumar Nalacherla</h1>
+        <p>Student at Anurag University</p>
+      </div>
+      <img src="https://media.licdn.com/dms/image/v2/D5603AQEjK5kfNePW8g/profile-displayphoto-shrink_200_200/B56ZWzoA60GoAY-/0/1742475366719?e=1759968000&v=beta&t=YeuXE4YLg7SaXZbgkR9n0LT_p82WFiYbujZf0Bjlw0Y" alt="Profile Picture" class="profile-pic">
+    </div>
+
+    <!-- Personal Info -->
+    <div class="pinfo">
+      Hyderabad <span>|</span>
+      7993406266 <span>|</span>
+      shravankumarnalacharla@gmail.com <span>|</span>
+      23eg110c43@anurag.edu.in <span>|</span>
+      @shravan_nalacharla
+    </div>
+
+    <!-- Education -->
+    <section>
+      <h2>Education</h2>
+      <h3>Schooling</h3>
+      <p>1-10th - Gowtham Model School<br> 11-12th - Narayana Junior College</p>
+      <h3>Engineering</h3>
+      <p>B.Tech, Computer Science Engineering (Data Science), Anurag University</p>
+    </section>
+
+    <!-- Technical Skills -->
+    <section>
+      <h2>Technical Skills</h2>
+      <h3>Languages</h3>
+      <p>C, Python,Java,SQL</p>
+      <h3>Tools / Libraries</h3>
+      <p>Huggingface, Docker</p>
+      <h3>Web / OS</h3>
+      <p>JavaScript, HTML, CSS</p>
+      <h3>DB / Cloud</h3>
+      <p> Oracle</p>
+      <h3>Design Tools</h3>
+      <p>Adobe After Effects, Adobe Premiere Pro, Adobe Photoshop, Blender</p>
+    </section>
+
+    <!-- Experiences -->
+    <section>
+      <h2>Experiences</h2>
+      <h3>Hive Social Media Team – Anurag University</h3>
+      <p><strong>Video Editor</strong></p>
+      <ul>
+        <li>Edited reels, event highlights, and promotional content for campus social media.</li>
+        <li>Collaborated with the Hive team to boost student engagement online.s</li>
+        <li>Applied Adobe Premiere Pro and After Effects to deliver storytelling-driven edits.</li>
+      </ul>
+
+    <!-- Projects -->
+    <section>
+      <h2>Projects</h2>
+      <h3>Anurag University Clone</h3>
+      <ul>
+        <li>Developed a functional clone of Anurag University’s website using HTML, CSS, and JavaScript.</li>
+        <li>Implemented responsive layouts with animations and video backgrounds.</li>
+      </ul>
+
+      <h3>Python Gaming Hub</h3>
+      <ul>
+        <li>Built a collection of mini-games including Tic Tac Toe and Snake using Tkinter & Pygame.</li>
+        <li>Integrated Flask & SocketIO for live multiplayer gameplay, with real-time access enabled using ngrok tunneling.</li>
+      </ul>
+
+      <h3>Client-Server Chat Application</h3>
+      <ul>
+        <li>Developed a chat system in Java with client-server architecture.</li>
+        <li>Explored socket programming and multi-threading for concurrent client connections.</li>
+      </ul>
+      <h3>Smart India Hackathon (SIH) – AI-Powered Student Assistance Chatbot</h3>
+      <ul>
+        <li>>Developed an AI-powered chatbot for the Department of Technical Education, Government of Rajasthan.</li>
+        <li>Implemented Natural Language Processing (NLP) for accurate query handling, with plans for multilingual (English/Hindi) support.</li>
+      </ul>
+    </section>
+
+  </div>
+</body>
+
+</html>
